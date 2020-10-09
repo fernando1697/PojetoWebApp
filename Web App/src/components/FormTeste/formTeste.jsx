@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import "./estilo.css";
+import {Redirect
+} from "react-router-dom";
 
 class FormTeste extends Component {
   constructor() {
@@ -9,6 +11,8 @@ class FormTeste extends Component {
       name: "",
       password: "",
       postagens: [],
+      redirect: false
+
     };
 
     this.create = this.create.bind(this);
@@ -58,7 +62,7 @@ class FormTeste extends Component {
         console.log(response);
         localStorage.setItem("token", response.token);
         localStorage.setItem("auth", response.auth);
-        //window.location.reload(false);
+        this.setState({ redirect: response.auth })
       })
       .catch((err) => {
         console.log(err);
@@ -70,6 +74,10 @@ class FormTeste extends Component {
   }
 
   render() {
+    if(this.state.redirect){
+       return <Redirect to = "/dashboard"/>
+    }
+        
     return (
       <div className="container">
         <div className="row justify-content-center card-body">
